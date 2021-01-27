@@ -1,0 +1,20 @@
+- name: Install Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: Start Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Disable Selinux
+  selinux:
+    state: disabled
+  register: selinux_status
+  
+- name: Reboot
+  reboot:
+    reboot_timeout: 3600
+  when: selinux_status.changed

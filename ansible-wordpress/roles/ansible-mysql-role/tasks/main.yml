@@ -1,0 +1,37 @@
+---
+- name: Install Mariadb Server
+  yum:
+    name:
+    - mariadb-server
+    - mariadb
+    state: latest
+
+- name: Start Mariadb Server
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Install pip
+  yum:
+    name: python2-pip
+
+- name: Update pip
+  pip:
+    name: pip
+    state: latest
+- name: Install pymysql
+  pip:
+    name: pymysql
+    state: latest
+- name: Create wordpress DB
+  mysql_db:
+    name: "{{ mysql_db }}"
+    state: present
+- name: Create wordpress user
+  mysql_user:
+    name: "{{ mysql_user }}"
+    host: "%"
+    password: "{{ mysql_password }}"
+    priv: "{{ mysql_db }}.*:ALL"
+    state: present

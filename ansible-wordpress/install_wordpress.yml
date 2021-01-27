@@ -1,0 +1,24 @@
+- hosts: web
+  tasks:
+  - name: Install Apache
+    import_role:
+      name: ansible-apache-role
+  
+  - name: Install php
+    import_role:
+      name: ansible-php-role
+    vars:
+      php_version: '7.4'
+  
+  - name: Install MariaDB
+    import_role:
+      name: ansible-mysql-role
+    vars:
+      mysql_user: 'wordpress'
+      mysql_password: 'MySecurePass'
+
+  - name: Install Wordpress
+    import_role:
+      name: ansible-wordpress-role
+
+   
